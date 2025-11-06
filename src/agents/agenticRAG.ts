@@ -6,9 +6,12 @@
 import { ReactAgent } from './react-agent';
 import { VectorSearch } from '../services/vectorSearch';
 import { ParentChildRetriever } from '../services/parentChildRetriever';
+import { DataProcessor } from '../services/dataProcessor';
 import { toolRegistry } from '../tools/tool-registry';
 import { createVectorSearchTool } from '../tools/vector-search-tool';
 import { createFinishTool } from '../tools/finish-tool';
+import { createQueryStructuredDataTool } from './tools/query-structured-data.js';
+import { createSearchDatasetMetadataTool } from './tools/search-dataset-metadata.js';
 import type { AgenticQueryResult } from '../types/agent.types';
 import { agentConfig } from '../config/agent.config';
 
@@ -16,11 +19,13 @@ export class AgenticRAG {
   private agent: ReactAgent;
   private vectorSearch: VectorSearch;
   private parentChildRetriever: ParentChildRetriever | null = null;
+  private dataProcessor: DataProcessor | null = null;
   private initialized: boolean = false;
 
-  constructor(vectorSearch: VectorSearch, parentChildRetriever?: ParentChildRetriever) {
+  constructor(vectorSearch: VectorSearch, parentChildRetriever?: ParentChildRetriever, dataProcessor?: DataProcessor) {
     this.vectorSearch = vectorSearch;
     this.parentChildRetriever = parentChildRetriever || null;
+    this.dataProcessor = dataProcessor || null;
     this.agent = new ReactAgent();
   }
 
@@ -50,6 +55,17 @@ export class AgenticRAG {
     const finishTool = createFinishTool();
     toolRegistry.register(finishTool);
     console.log('  ✅ Finish tool registered');
+
+    // Register structured data tools if dataProcessor is available
+    if (this.dataProcessor) {
+      const searchMetadataTool = createSearchDatasetMetadataTool(this.vectorSearch);
+      toolRegistry.register(searchMetadataTool);
+      console.log('  ✅ Dataset metadata search tool registered');
+
+      const queryStructuredTool = createQueryStructuredDataTool(this.dataProcessor.getDuckDB());
+      toolRegistry.register(queryStructuredTool);
+      console.log('  ✅ Structured data query tool registered');
+    }
 
     // Log available tools
     const tools = toolRegistry.getAll();

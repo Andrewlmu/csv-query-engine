@@ -82,8 +82,8 @@ async function initializeServices() {
     console.log('✅ Parent-child retriever initialized');
   }
 
-  // Initialize QueryEngine with hierarchical retriever (if available)
-  queryEngine = new QueryEngine(vectorSearch, parentChildRetriever || undefined);
+  // Initialize QueryEngine with hierarchical retriever and data processor (if available)
+  queryEngine = new QueryEngine(vectorSearch, parentChildRetriever || undefined, dataProcessor);
   console.log(
     `✅ Query engine initialized${parentChildRetriever ? ' (with hierarchical retrieval)' : ''}`
   );

@@ -3,6 +3,7 @@ import { HumanMessage, SystemMessage, AIMessage } from '@langchain/core/messages
 import { VectorSearchService } from './vectorSearch';
 import { AgenticRAG } from '../agents/agenticRAG';
 import { ParentChildRetriever, EnhancedSearchResult } from './parentChildRetriever';
+import { DataProcessor } from './dataProcessor';
 
 export interface QueryResult {
   answer: string;
@@ -25,14 +26,14 @@ export class QueryEngine {
   private parentChildRetriever: ParentChildRetriever | null = null;
   private agenticRAG: AgenticRAG | null = null;
 
-  constructor(vectorSearch: VectorSearchService, parentChildRetriever?: ParentChildRetriever) {
+  constructor(vectorSearch: VectorSearchService, parentChildRetriever?: ParentChildRetriever, dataProcessor?: DataProcessor) {
     this.vectorSearch = vectorSearch;
     this.parentChildRetriever = parentChildRetriever || null;
 
     // Initialize Agentic RAG if enabled
     if (process.env.USE_AGENTIC_RAG === 'true') {
       try {
-        this.agenticRAG = new AgenticRAG(vectorSearch, parentChildRetriever);
+        this.agenticRAG = new AgenticRAG(vectorSearch, parentChildRetriever, dataProcessor);
         console.log('🤖 Agentic RAG enabled');
       } catch (error) {
         console.error('❌ Failed to initialize Agentic RAG:', error);

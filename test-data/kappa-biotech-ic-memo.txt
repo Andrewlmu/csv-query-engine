@@ -1,0 +1,193 @@
+INVESTMENT COMMITTEE MEMORANDUM
+
+TO: Investment Committee Members
+FROM: Sarah Chen, Principal
+DATE: November 15, 2024
+RE: Kappa Biotech Acquisition - $180M Growth Equity Investment
+
+EXECUTIVE SUMMARY
+
+Phoenix Capital Partners IV proposes a $180M growth equity investment in Kappa Biotech, a leading contract research organization (CRO) specializing in Phase II/III clinical trials for oncology therapeutics. The investment represents a 35% ownership stake at a $515M pre-money valuation (3.2x LTM revenue, 18.5x LTM EBITDA).
+
+INVESTMENT HIGHLIGHTS
+
+Strong Market Position
+- #4 CRO in oncology clinical trials (12% market share)
+- Proprietary patient recruitment network across 85 clinical sites
+- 92% trial completion rate (industry average: 78%)
+- Partnerships with 8 of top 10 pharma companies
+
+Compelling Growth Drivers
+- Oncology drug pipeline: 1,200+ drugs in development (CAGR: 9.8%)
+- Biotech outsourcing trend: 68% of trials now outsourced (up from 52% in 2020)
+- Rare disease specialization: fastest growing segment at 15% CAGR
+- Geographic expansion: EU and APAC markets underpenetrated
+
+Attractive Financial Profile
+- LTM Revenue: $162M (3-year CAGR: 38%)
+- LTM EBITDA: $27.8M (17.2% margin)
+- Rule of 40: 55.2% (38% growth + 17.2% margin)
+- 98% revenue visibility from contracted backlog
+- Negative working capital due to upfront customer deposits
+
+FINANCIAL OVERVIEW
+
+Historical Performance ($ millions):
+                    2021    2022    2023    LTM 9/30/24
+Revenue            $85.2   $117.4  $148.6   $162.3
+Growth %             -      37.8%   26.5%    24.2%
+Gross Margin       52.3%   54.1%   56.8%    58.2%
+EBITDA            $12.1   $18.7   $25.4    $27.8
+EBITDA Margin     14.2%   15.9%   17.1%    17.2%
+Net Income        $6.8    $10.2   $14.3    $16.5
+Active Trials       24      38      52       61
+
+Management Projections ($ millions):
+                    2025E   2026E   2027E   2028E   2029E
+Revenue            $205    $267    $334    $408    $485
+Growth %           26.3%   30.2%   25.1%   22.2%   18.9%
+EBITDA            $39.6   $56.0   $73.8   $93.8   $113.2
+EBITDA Margin     19.3%   21.0%   22.1%   23.0%   23.3%
+Unlevered FCF     $32.8   $46.2   $61.5   $78.9   $95.6
+
+USE OF PROCEEDS
+
+Total Sources: $180M
+- New equity: $180M (Phoenix Capital Partners IV)
+
+Total Uses: $180M
+- Sales expansion: $65M (EU sales team, APAC JV)
+- Site network expansion: $45M (25 new clinical sites)
+- Technology platform: $35M (AI patient matching, EDC system upgrade)
+- M&A pipeline: $25M (bolt-on site acquisitions)
+- Working capital: $10M
+
+TRANSACTION STRUCTURE
+
+- Investment: $180M for 35% fully diluted ownership
+- Security: Series A Preferred Stock
+- Valuation: $515M pre-money ($695M post-money)
+- Board composition: 5 seats (2 Phoenix, 2 Founders, 1 Independent)
+- Liquidation preference: 1x non-participating
+- Anti-dilution: Weighted average
+- Drag-along rights: > 66.7% of preferred
+- Protective provisions: Standard (budget, debt, M&A, equity issuance)
+
+MANAGEMENT TEAM
+
+Dr. Rebecca Martinez - CEO & Co-Founder
+- PhD Oncology, Stanford; 18 years clinical research experience
+- Previously VP Clinical Operations at Quintiles ($8B CRO)
+- Founded Kappa in 2018, grown to $162M revenue
+- Owns 32% equity (22.4% post-investment)
+
+Dr. James Park - Chief Medical Officer & Co-Founder  
+- MD/PhD Harvard; board certified oncologist
+- Led 40+ Phase II/III trials at major pharma
+- Built Kappa's scientific advisory board (12 KOLs)
+- Owns 28% equity (19.6% post-investment)
+
+Lisa Thompson - CFO (joined 2022)
+- Previously CFO at $300M healthcare services PE portfolio company
+- Led successful exit to strategic at 4.2x MOIC
+- CPA, MBA Wharton
+
+INVESTMENT RISKS & MITIGATIONS
+
+Regulatory Risk
+- Risk: FDA trial delays or failures impact revenue
+- Mitigation: Diversified across 15+ sponsors, 60+ trials; no single trial >8% revenue
+
+Customer Concentration  
+- Risk: Top 3 customers = 42% of revenue
+- Mitigation: MSAs in place (3-5 year terms); expanding customer base (32 active sponsors)
+
+Competition Risk
+- Risk: Large CROs (Labcorp, IQVIA) could compete aggressively  
+- Mitigation: Differentiated oncology focus; proprietary patient network; nimble execution
+
+Key Person Risk
+- Risk: Departure of founder management team
+- Mitigation: Strong equity incentives; 4-year vesting on option refresh; management continuity agreements
+
+Execution Risk
+- Risk: International expansion complexity
+- Mitigation: Phased rollout; experienced country managers hired; JV model in APAC limits capital risk
+
+RETURN ANALYSIS
+
+Base Case (60% probability)
+- Hold period: 4.5 years
+- Exit multiple: 3.8x LTM revenue (20x EBITDA)
+- 2029 Revenue: $485M → Exit EV: $1,843M
+- Equity value @ 35%: $645M
+- MOIC: 3.6x
+- IRR: 38%
+
+Upside Case (25% probability)  
+- Hold period: 4.0 years
+- Exit multiple: 4.5x LTM revenue (24x EBITDA)
+- Accelerated growth to $520M by 2028 → Exit EV: $2,340M
+- Equity value @ 35%: $819M
+- MOIC: 4.5x
+- IRR: 46%
+
+Downside Case (15% probability)
+- Hold period: 5.5 years
+- Exit multiple: 2.8x LTM revenue (15x EBITDA)  
+- Slower growth to $380M by 2029 → Exit EV: $1,064M
+- Equity value @ 35%: $372M
+- MOIC: 2.1x
+- IRR: 16%
+
+Expected MOIC: 3.4x | Expected IRR: 35%
+
+EXIT STRATEGY
+
+Primary Path: Strategic Sale (70% probability)
+- Potential acquirers: Top 5 CROs looking to expand oncology capabilities
+- Recent comps: 3.5-5.0x revenue, 18-25x EBITDA
+- Strategic premium for patient network and site relationships
+
+Secondary Path: Secondary Sale to Growth PE (20% probability)
+- Platform for continued M&A rollup strategy
+- Recent comps: 3.0-4.0x revenue, 16-22x EBITDA
+
+Tertiary Path: IPO (10% probability)
+- Public CRO comps trade at 3.2-4.8x revenue, 18-28x EBITDA
+- Would need $250M+ revenue for successful public offering
+
+DILIGENCE FINDINGS
+
+Financial & Tax (Deloitte): Clean; no material findings
+Legal (Ropes & Gray): Standard IP assignments confirmed; clinical trial contracts reviewed
+Commercial (Bain & Company): TAM sizing validated; competitive positioning confirmed  
+Quality of Earnings (FTI): $1.2M in non-recurring add-backs accepted; working capital normalized
+IT/Cybersecurity (Deloitte): SOC 2 Type II certified; no critical findings
+Insurance (Marsh): Adequate coverage; professional liability limits appropriate
+
+RECOMMENDATION
+
+Investment Committee approval is recommended for a $180M growth equity investment in Kappa Biotech. The opportunity offers:
+
+✓ Compelling value creation in high-growth oncology CRO market
+✓ Proven management team with deep domain expertise  
+✓ Clear use of proceeds to accelerate organic + inorganic growth
+✓ Strong downside protection with contracted revenue backlog
+✓ Multiple exit paths with attractive strategic buyer interest
+
+The investment aligns with Fund IV's healthcare services thesis and target return profile (3.0x+ MOIC, 30%+ IRR).
+
+NEXT STEPS
+
+1. IC approval vote - November 18, 2024
+2. Final negotiation of SHA and investor rights - November 20-25
+3. Management presentations to IC - November 22, 2024  
+4. SPA execution - December 2, 2024
+5. Closing - December 13, 2024 (subject to customary conditions)
+
+Attachments:
+- Financial model (Excel)
+- Management presentation  
+- Diligence reports summary
+- Draft term sheet

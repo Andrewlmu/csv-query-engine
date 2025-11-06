@@ -5,6 +5,10 @@ import { DocumentParser, ParsedDocument } from './documentParser';
 import { HierarchicalChunker } from './hierarchicalChunker';
 import { DocumentStore } from './documentStore';
 import type { HierarchicalChunk } from '../types/hierarchical.types';
+import { DuckDBManager } from '../structured-data/duckdb-manager.js';
+import { MetadataGenerator } from '../structured-data/metadata-generator.js';
+import { parseCSV } from '../structured-data/parsers/csv-parser.js';
+import { ChatOpenAI } from '@langchain/openai';
 
 export interface DataStats {
   totalDocuments: number;
@@ -25,12 +29,17 @@ export class DataProcessor {
   private documentStore: DocumentStore | null = null;
   private useHierarchicalChunking: boolean;
   private stats: DataStats;
+  private duckdb: DuckDBManager;
+  private metadataGenerator: MetadataGenerator | null = null;
 
   constructor(documentStore?: DocumentStore, vectorSearch?: VectorSearchService) {
     this.documentParser = new DocumentParser();
     this.documentStore = documentStore || null;
     this.vectorSearch = vectorSearch || null;
     this.useHierarchicalChunking = process.env.USE_HIERARCHICAL_CHUNKING === 'true';
+
+    // Initialize structured data support
+    this.duckdb = new DuckDBManager();
 
     // Initialize hierarchical chunker if enabled
     if (this.useHierarchicalChunking && this.documentStore) {
@@ -63,6 +72,16 @@ export class DataProcessor {
       console.log('   Using shared VectorSearch instance ✅');
     }
 
+    // Initialize DuckDB for structured data
+    await this.duckdb.initialize();
+
+    // Initialize metadata generator with LLM
+    const llm = new ChatOpenAI({
+      modelName: process.env.LLM_MODEL || 'gpt-4',
+      temperature: 0,
+    });
+    this.metadataGenerator = new MetadataGenerator(llm);
+
     // Create data directories if they don't exist
     await this.ensureDirectories();
 
@@ -88,6 +107,13 @@ export class DataProcessor {
       throw new Error('Data processor not initialized');
     }
 
+    // DUAL-PATH ROUTING: Check if this is structured data (CSV)
+    if (this.isStructuredFile(doc.metadata.filename)) {
+      await this.processStructuredFile(doc.content, doc.metadata.filename);
+      return;
+    }
+
+    // UNSTRUCTURED PATH: Text documents (TXT, PDF, etc.)
     // Check if hierarchical chunking is enabled
     if (this.useHierarchicalChunking && this.hierarchicalChunker && this.documentStore) {
       await this.processWithHierarchicalChunking(doc);
@@ -152,6 +178,76 @@ export class DataProcessor {
     console.log(`   - ${stats.totalParents} parent chunks`);
     console.log(`   - ${stats.totalChildren} child chunks`);
     console.log(`   - ${stats.sectionsDetected} sections detected`);
+  }
+
+  /**
+   * Process structured data file (CSV) - NEW DUAL-PATH APPROACH
+   */
+  private async processStructuredFile(content: string, filename: string): Promise<void> {
+    console.log(`📊 Processing structured data: ${filename}`);
+
+    if (!this.metadataGenerator) {
+      throw new Error('Metadata generator not initialized');
+    }
+
+    // Step 1: Parse CSV
+    const parsedData = await parseCSV(content, filename);
+    console.log(`   Schema: ${parsedData.columnCount} columns, ${parsedData.rowCount} rows`);
+
+    // Step 2: Load into DuckDB
+    const tableName = await this.duckdb.createTable(parsedData);
+
+    // Step 3: Generate rich metadata description
+    const metadata = await this.metadataGenerator.generate(parsedData, tableName);
+
+    // Step 4: Index metadata as a document (for semantic search)
+    // CRITICAL: Store schema info for SQL generation
+    await this.vectorSearch!.addDocument({
+      id: `dataset_${tableName}_${Date.now()}`,
+      content: metadata,
+      metadata: {
+        filename: filename,
+        type: 'dataset_metadata',
+        tableId: tableName,
+        rowCount: parsedData.rowCount,
+        columnCount: parsedData.columnCount,
+        schema: parsedData.headers.map((col, i) => ({
+          name: col,
+          type: parsedData.types[i]
+        })),
+        parsedAt: new Date().toISOString(),
+      },
+      chunks: [{
+        text: metadata,
+        metadata: {
+          type: 'dataset_metadata',
+          tableId: tableName,
+          filename: filename,
+          schema: parsedData.headers.map((col, i) => ({
+            name: col,
+            type: parsedData.types[i]
+          }))
+        }
+      }]
+    });
+
+    // Update stats
+    this.stats.totalDocuments++;
+    this.stats.documentTypes['csv'] = (this.stats.documentTypes['csv'] || 0) + 1;
+    this.stats.lastUpdated = new Date().toISOString();
+
+    console.log(`✅ Processed structured data: ${tableName}`);
+    console.log(`   - Table: ${tableName}`);
+    console.log(`   - Rows: ${parsedData.rowCount}`);
+    console.log(`   - Metadata indexed for semantic search`);
+  }
+
+  /**
+   * Detect if file is structured data (CSV)
+   */
+  private isStructuredFile(filename: string): boolean {
+    const ext = filename.toLowerCase().split('.').pop();
+    return ext === 'csv';
   }
 
   async loadSampleData(): Promise<void> {
@@ -628,10 +724,18 @@ investing, active portfolio management, and strategic positioning for the next c
     return this.stats;
   }
 
+  /**
+   * Get DuckDB manager for structured data queries
+   */
+  getDuckDB(): DuckDBManager {
+    return this.duckdb;
+  }
+
   async cleanup(): Promise<void> {
     console.log('🧹 Cleaning up data processor...');
     if (this.vectorSearch) {
       await this.vectorSearch.cleanup();
     }
+    await this.duckdb.close();
   }
 }

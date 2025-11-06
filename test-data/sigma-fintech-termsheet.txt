@@ -1,0 +1,233 @@
+NON-BINDING TERM SHEET
+
+Sigma Financial Technologies, Inc.
+Series B Preferred Stock Financing
+
+Date: November 1, 2024
+
+This term sheet summarizes the principal terms of the proposed Series B Preferred Stock financing of Sigma Financial Technologies, Inc. (the "Company"). This term sheet is for discussion purposes only and does not constitute a legally binding commitment. Binding obligations will only result from the execution of definitive agreements.
+
+OFFERING TERMS
+
+Issuer:                     Sigma Financial Technologies, Inc. (Delaware C-Corp)
+
+Investors:                  Phoenix Ventures Fund III, L.P. ("Lead Investor")
+                           Existing investors pro-rata participation rights
+
+Amount:                     $35,000,000
+
+Security:                   Series B Preferred Stock ("Series B")
+
+Pre-Money Valuation:        $115,000,000  
+
+Post-Money Valuation:       $150,000,000
+
+Price Per Share:            $2.1739 (based on 68,950,000 shares outstanding pre-financing)
+
+Closing Date:               On or before December 20, 2024
+
+CAPITALIZATION
+
+                                    Shares              %           
+Common Stock:                       55,000,000         36.7%
+Series A Preferred:                 13,950,000          9.3%
+Employee Option Pool (reserved):    10,000,000          6.7%
+Series B Preferred (new):           16,100,000         10.7%
+Post-Series B Option Pool:          15,000,000         10.0%
+FULLY DILUTED:                     110,050,000        100.0%
+
+DIVIDEND PROVISIONS
+
+Dividends on Series B will accrue at 8% per annum on a non-cumulative basis, payable when and if declared by the Board. Dividends on Series A will continue at 6% per annum. Common stock may receive dividends only after Series B and Series A preferred dividends are paid in full.
+
+LIQUIDATION PREFERENCE
+
+In a liquidation event (merger, acquisition, sale of substantially all assets, or winding up):
+
+Senior Liquidation Preference (distributed in order):
+1. Series B holders receive 1.5x original purchase price ($52.5M) plus accrued but unpaid dividends
+2. Series A holders receive 1.0x original purchase price ($30.3M) plus accrued but unpaid dividends
+3. Remaining proceeds distributed pro-rata among all stockholders on an as-converted basis
+
+Participating Rights: Series B participates pro-rata with common after receiving liquidation preference. Series A is non-participating.
+
+Cap on Participation: Series B participation capped at 3x original purchase price total return.
+
+Deemed Liquidation: Any merger, acquisition, or sale of >50% of voting power is treated as liquidation event, subject to approval of holders of majority of Series B.
+
+CONVERSION
+
+Each share of Series B converts into Common at any time at holder's option. Initial conversion ratio is 1:1, subject to anti-dilution adjustments.
+
+Automatic conversion upon (i) qualified IPO with $200M+ valuation and $50M+ gross proceeds, or (ii) written consent of holders of 66.7% of Series B.
+
+ANTI-DILUTION PROTECTION
+
+Series B: Weighted average anti-dilution protection for dilutive issuances below Series B price.
+
+Series A: Existing weighted average anti-dilution protection continues.
+
+Standard carve-outs apply: employee option pool issuances, stock splits, dividends, strategic partnerships approved by Board, equipment leasing, acquisitions approved by Board.
+
+VOTING RIGHTS
+
+Series B votes with Common on an as-converted basis on all matters except as required by law or these terms.
+
+Board composition: 7 seats
+- 2 seats: Series B designees (Phoenix Ventures)  
+- 1 seat: Series A designee (Accel Partners)
+- 2 seats: Common designees (CEO + Founder)
+- 2 seats: Independent directors mutually agreed
+
+Board observer rights: Each investor holding >10% has observer rights.
+
+PROTECTIVE PROVISIONS
+
+Series B consent (majority) required for:
+- Amendments to Certificate or Bylaws adversely affecting Series B
+- Issuance of stock senior to or pari passu with Series B
+- Redemption or repurchase of stock (except employee buybacks per plan)
+- Declaration of dividends on Common
+- Incurrence of debt >$5M (excluding equipment leasing)
+- Sale, exclusive license, or transfer of material IP
+- Related party transactions >$250K
+- Annual operating budget and material amendments
+- Hiring or termination of CEO
+- Company acquisition, merger, or sale of substantial assets
+- Transactions outside ordinary course >$3M
+
+Series A existing protective provisions continue for matters affecting Series A.
+
+DRAG-ALONG RIGHTS
+
+Holders of >66.7% of Preferred (voting together) + Common Board designees may require all stockholders to approve Company sale or deemed liquidation on same terms.
+
+Carve-outs: Requires at least 1x return to Common on as-converted basis.
+
+INFORMATION RIGHTS
+
+Investors holding >5% receive:
+- Monthly financial statements (unaudited) within 15 days of month-end
+- Quarterly financial statements (unaudited) within 30 days of quarter-end  
+- Annual financial statements (audited) within 90 days of year-end
+- Annual operating budget at least 30 days before fiscal year start
+- Prompt notice of material events
+
+Rights terminate upon IPO or acquisition.
+
+REGISTRATION RIGHTS
+
+Demand Rights: Series B holders with >33% of Series B may require registration of shares on two occasions, provided anticipated aggregate offering >$15M.
+
+S-3 Rights: Holders of >10% may require up to two S-3 registrations per year if available, with $5M minimum.
+
+Piggyback Rights: Pro-rata participation in Company-initiated registrations.
+
+Lock-up: 180 days post-IPO; officers/directors lock-up on same terms.
+
+Standard provisions regarding expenses, indemnification, underwriting arrangements.
+
+PRO-RATA RIGHTS
+
+Major Investors (holders of >5% on as-converted basis) have pro-rata right to participate in future equity financings to maintain ownership percentage.
+
+Carry-forward rights if not fully exercised.
+
+RIGHT OF FIRST REFUSAL / CO-SALE
+
+Company and then Major Investors have ROFR on proposed transfers of Common by Founders.
+
+Co-sale rights allow Major Investors to participate pro-rata in Founder transfers not purchased via ROFR.
+
+Standard exclusions: estate planning, employee transfers per plan, transfers to affiliates.
+
+Rights terminate upon IPO.
+
+REDEMPTION
+
+Series B holders may elect redemption starting 7 years after Series B closing. Redemption in three annual installments at original purchase price plus accrued dividends. Company may prepay at any time without penalty.
+
+EMPLOYEE OPTION POOL
+
+Post-Series B option pool of 15M shares (13.6% fully diluted). Pool created prior to Series B pricing. 
+
+Standard 4-year vesting with 1-year cliff for new grants.
+
+Acceleration provisions: 50% vesting on Company sale if terminated without cause within 12 months; 100% for CEO on sale.
+
+FOUNDER VESTING
+
+Founders' unvested shares subject to repurchase by Company at cost if terminated for cause or resign without good reason. 
+
+Existing vesting schedules: 
+- CEO (Sarah Park): 75% vested, remainder vests quarterly through June 2026
+- CTO (Alex Chen): 60% vested, remainder vests quarterly through March 2027
+
+Accelerated vesting: 50% of unvested shares vest on Company sale if Founder terminated without cause within 12 months; 100% for CEO.
+
+NO-SHOP / CONFIDENTIALITY
+
+Company agrees to 45-day exclusivity period from term sheet execution (through December 15, 2024).
+
+Company will not solicit or engage in discussions with other investors regarding equity financing during exclusivity.
+
+Terms of this financing are confidential, subject to standard exceptions.
+
+CONDITIONS TO CLOSING
+
+- Execution of definitive Stock Purchase Agreement, Amended & Restated Certificate of Incorporation, Amended & Restated Investors' Rights Agreement, Right of First Refusal & Co-Sale Agreement, and Voting Agreement
+- Satisfactory completion of legal, financial, technical, and commercial due diligence  
+- No Material Adverse Change in business, operations, or financial condition
+- Key employee retention agreements executed (CEO, CTO, CFO, VP Eng)
+- Qualification of shares under applicable securities laws
+- Board approval and stockholder approval (as required)
+- Existing Series A investors waiving any ROFR or preemptive rights or participating pro-rata
+
+EXPENSES
+
+Company will pay Lead Investor's reasonable legal fees and expenses up to $75,000 upon closing.
+
+If transaction does not close due to Company breach or termination without cause, Company will reimburse up to $50,000 in investor legal fees.
+
+USE OF PROCEEDS
+
+Estimated allocation of $35M:
+- Product development (payments platform v2.0): $12M
+- Sales & marketing (enterprise go-to-market): $10M  
+- International expansion (UK, EU): $6M
+- Working capital & general corporate purposes: $5M
+- Strategic hires (VP Sales, VP Product, Head of Intl): $2M
+
+BUSINESS OVERVIEW
+
+Company: Sigma Financial Technologies, Inc.
+Founded: 2019
+Headquarters: Austin, TX
+Employees: 127
+
+Description: B2B payments automation platform for mid-market companies. SaaS model with usage-based pricing. Integrates with ERPs (NetSuite, SAP, QuickBooks) to automate invoice processing, payment execution, and reconciliation.
+
+Metrics (as of Q3 2024):
+- ARR: $18.2M (growing 140% YoY)  
+- Customers: 312 (avg 28 employees, $1.5B+ annual revenue)
+- Gross Margin: 78%
+- Net Dollar Retention: 135%
+- Magic Number: 1.2
+- Burn Rate: $1.8M/month
+- Cash Balance: $4.2M (2.3 months runway)
+
+Management Team:
+- Sarah Park, CEO (ex-Stripe, Stanford CS)
+- Alex Chen, CTO (ex-Square, MIT)
+- Maria Rodriguez, CFO (ex-Brex, Wharton MBA)
+
+---
+
+LEAD INVESTOR:                          COMPANY:
+
+Phoenix Ventures Fund III, L.P.         Sigma Financial Technologies, Inc.
+
+By: _____________________________        By: _____________________________
+Name: David Liu                          Name: Sarah Park
+Title: Managing Partner                 Title: Chief Executive Officer
+Date: November 1, 2024                  Date: _______________
