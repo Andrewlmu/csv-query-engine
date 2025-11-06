@@ -1,6 +1,7 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { HumanMessage, SystemMessage, AIMessage } from '@langchain/core/messages';
 import { VectorSearchService } from './vectorSearch';
+import { AgenticRAG } from '../agents/agenticRAG';
 
 export interface QueryResult {
   answer: string;
@@ -10,14 +11,33 @@ export interface QueryResult {
   }>;
   confidence: number;
   processingTime: number;
+  reasoning?: {
+    thoughts: string[];
+    toolsUsed: string[];
+    loopCount: number;
+  };
 }
 
 export class QueryEngine {
   private llm: ChatOpenAI;
   private vectorSearch: VectorSearchService;
+  private agenticRAG: AgenticRAG | null = null;
 
   constructor(vectorSearch: VectorSearchService) {
     this.vectorSearch = vectorSearch;
+
+    // Initialize Agentic RAG if enabled
+    if (process.env.USE_AGENTIC_RAG === 'true') {
+      try {
+        this.agenticRAG = new AgenticRAG(vectorSearch);
+        console.log('🤖 Agentic RAG enabled');
+      } catch (error) {
+        console.error('❌ Failed to initialize Agentic RAG:', error);
+        console.log('📄 Falling back to basic RAG');
+      }
+    } else {
+      console.log('📄 Using Basic RAG (USE_AGENTIC_RAG=false)');
+    }
 
     // Initialize GPT-5 with async streaming support (using gpt-4-turbo for now)
     this.llm = new ChatOpenAI({
@@ -31,6 +51,34 @@ export class QueryEngine {
 
   async executeQuery(query: string, filters?: Record<string, any>): Promise<QueryResult> {
     const startTime = Date.now();
+
+    // Try Agentic RAG first if available
+    if (this.agenticRAG) {
+      try {
+        console.log('🤖 Routing to Agentic RAG');
+
+        const agenticResult = await this.agenticRAG.query(query);
+
+        // Convert agentic result to standard QueryResult format
+        return {
+          answer: agenticResult.answer,
+          sources: agenticResult.sources.map(s => ({
+            content: s.chunk,
+            metadata: { filename: s.filename, similarity: s.similarity },
+          })),
+          confidence: 0.9, // High confidence for agentic
+          processingTime: agenticResult.metadata.duration,
+          reasoning: agenticResult.reasoning,
+        };
+      } catch (error) {
+        console.error('❌ Agentic RAG failed:', error);
+        console.log('📄 Falling back to Basic RAG');
+        // Fall through to basic RAG
+      }
+    }
+
+    // Basic RAG (fallback or default)
+    console.log('📄 Using Basic RAG');
 
     try {
       // Search for relevant documents asynchronously
