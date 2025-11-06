@@ -139,7 +139,7 @@ rm -rf chroma_db/
 3. **Hybrid Intelligence**
    - Structured data via pandas DataFrames
    - Unstructured via vector search
-   - Combined context sent to GPT-4
+   - Combined context sent to GPT-5
 
 ### Architecture
 ```
@@ -149,17 +149,17 @@ Vector Embedding
     ↓
 ChromaDB Search → Relevant Chunks
     ↓
-GPT-4 Context Window ← Structured Data
+GPT-5 Context Window ← Structured Data
     ↓
 Intelligent Response
 ```
 
-## GPT-5 Ready
+## Using GPT-5
 
-The system is configured to use GPT-4 Turbo currently, but is ready for GPT-5:
-- Just update `model="gpt-5"` in app.py when available
-- All infrastructure supports next-gen models
-- Vector embeddings compatible with future upgrades
+The system is configured to use GPT-5, the latest generation model:
+- November 2025's most advanced AI capabilities
+- Superior reasoning and analysis
+- All infrastructure optimized for GPT-5 performance
 
 ## Next Steps After Demo
 

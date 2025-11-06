@@ -9,7 +9,7 @@ AI-powered data analysis platform for Private Equity due diligence. Processes bo
 - **Semantic Search**: Find information by meaning, not just keywords
 - **Unified Intelligence**: Query across all data sources simultaneously
 - **Production Architecture**: RAG pattern with ChromaDB vector store
-- **GPT-4 Integration**: Advanced reasoning and analysis
+- **GPT-5 Integration**: Latest generation AI model for advanced reasoning
 
 ## 📋 Prerequisites
 

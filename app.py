@@ -50,7 +50,7 @@ class DataWarehouse:
         self.documents = []        # Raw documents
         self.vectorstore = None    # ChromaDB for document search
         self.embeddings = OpenAIEmbeddings()
-        self.llm = ChatOpenAI(model="gpt-4-turbo-preview", temperature=0)
+        self.llm = ChatOpenAI(model="gpt-5", temperature=0)
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=200,
@@ -390,7 +390,7 @@ class DataWarehouse:
         try:
             client = OpenAI()
             response = client.chat.completions.create(
-                model="gpt-4-turbo-preview",
+                model="gpt-5",
                 messages=[
                     {
                         "role": "system",
