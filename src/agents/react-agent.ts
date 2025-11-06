@@ -389,8 +389,11 @@ export class ReactAgent {
             const toolResult = JSON.parse(msg.content);
             if (toolResult.found && toolResult.results) {
               for (const result of toolResult.results) {
+                // Handle both standard search (content) and hierarchical search (childChunk/parentChunk)
+                const chunk = result.childChunk || result.parentChunk || result.content || '';
+
                 sources.push({
-                  chunk: result.content,
+                  chunk: chunk,
                   filename: result.metadata?.filename || 'unknown',
                   similarity: parseFloat(result.similarity) || 0,
                 });

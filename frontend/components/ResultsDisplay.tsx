@@ -48,7 +48,7 @@ export default function ResultsDisplay({ result, isLoading }: ResultsDisplayProp
           <div className="flex items-center space-x-2">
             <BarChart className="text-gray-400" size={16} />
             <span className="text-sm text-gray-600">
-              Confidence: <span className="font-medium">{result.confidence}%</span>
+              Confidence: <span className="font-medium">{(result.confidence * 100).toFixed(1)}%</span>
             </span>
           </div>
           <div className="flex items-center space-x-2">
