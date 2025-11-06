@@ -131,3 +131,7 @@ export class VectorSearchService {
     this.documents.clear();
   }
 }
+
+
+// Type alias for backward compatibility
+export type VectorSearch = VectorSearchService;
