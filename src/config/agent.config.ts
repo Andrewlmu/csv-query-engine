@@ -73,6 +73,55 @@ Step 4: Handle Results
 → If multiple datasets were returned, query ALL of them until you find data
 → Once you have data, call finish with the answer
 
+=== FEW-SHOT EXAMPLES ===
+
+Learn from these complete examples showing the correct reasoning process:
+
+Example 1: Simple Lookup
+User: "What was Gamma Solutions revenue in Q3 2024?"
+Reasoning: This is Pattern 1 (simple lookup). I need to search for datasets first.
+Tool: search_dataset_metadata("Gamma Solutions revenue Q3 2024")
+Response: Found comprehensive_test with schema: [{name: "Company", type: "TEXT"}, {name: "Quarter", type: "TEXT"}, {name: "Year", type: "INTEGER"}, {name: "Revenue", type: "REAL"}]
+SQL: SELECT Revenue FROM comprehensive_test WHERE Company = 'Gamma Solutions' AND Quarter = 'Q3' AND Year = 2024
+Result: 9100000
+Tool: finish("Gamma Solutions had a revenue of $9,100,000 in Q3 2024. (Source: comprehensive_test)")
+
+Example 2: Comparison with ORDER BY
+User: "Which company had the highest EBITDA in Q2 2024?"
+Reasoning: This is Pattern 3 (comparison). The keyword "highest" means I need ORDER BY DESC LIMIT 1.
+Tool: search_dataset_metadata("company EBITDA Q2 2024")
+Response: Found comprehensive_test with schema including EBITDA column
+SQL: SELECT Company, EBITDA FROM comprehensive_test WHERE Quarter = 'Q2' AND Year = 2024 ORDER BY EBITDA DESC LIMIT 1
+Result: Company: "Acme Corp", EBITDA: 2400000
+Tool: finish("Acme Corp had the highest EBITDA of $2,400,000 in Q2 2024. (Source: comprehensive_test)")
+
+Example 3: Trend Analysis (ALL values)
+User: "Show me Beta Industries revenue for each quarter in 2024"
+Reasoning: This is Pattern 4 (trend). The keyword "each quarter" means I should NOT filter to a specific quarter.
+Tool: search_dataset_metadata("Beta Industries revenue quarterly")
+Response: Found comprehensive_test
+SQL: SELECT Quarter, Revenue FROM comprehensive_test WHERE Company = 'Beta Industries' AND Year = 2024 ORDER BY Quarter
+Result: Q1: 3200000, Q2: 3500000, Q3: 3800000, Q4: 4100000
+Tool: finish("Beta Industries revenue in 2024: Q1: $3.2M, Q2: $3.5M, Q3: $3.8M, Q4: $4.1M. (Source: comprehensive_test)")
+
+Example 4: Filtering with Numeric Threshold
+User: "Which companies had margins above 0.25 in Q1?"
+Reasoning: This is Pattern 5 (filtering). The user said "above 0.25" so I need WHERE Margin > 0.25 (not > 0).
+Tool: search_dataset_metadata("companies margins Q1")
+Response: Found comprehensive_test with schema including Margin column
+SQL: SELECT Company, Margin FROM comprehensive_test WHERE Quarter = 'Q1' AND Margin > 0.25
+Result: Company: "Gamma Solutions", Margin: 0.30
+Tool: finish("Gamma Solutions had a margin of 30% in Q1, which is above 0.25. (Source: comprehensive_test)")
+
+Example 5: Aggregation
+User: "What was the average EBITDA margin for Acme Corp in 2024?"
+Reasoning: This is Pattern 2 (aggregation). The keyword "average" means I use AVG() function.
+Tool: search_dataset_metadata("Acme Corp EBITDA margin 2024")
+Response: Found comprehensive_test with Margin column
+SQL: SELECT AVG(Margin) as avg_margin FROM comprehensive_test WHERE Company = 'Acme Corp' AND Year = 2024
+Result: 0.265
+Tool: finish("Acme Corp had an average EBITDA margin of 26.5% in 2024. (Source: comprehensive_test)")
+
 === SQL QUERY PATTERNS ===
 
 Pattern 1: SIMPLE LOOKUP (user asks "What was X's Y in Z?")
