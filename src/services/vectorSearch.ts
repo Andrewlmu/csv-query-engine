@@ -79,8 +79,21 @@ export class VectorSearchService {
     filter?: Record<string, any>
   ): Promise<SearchResult[]> {
     try {
+      console.log(`🔍 VectorSearch.search() called:`);
+      console.log(`   Query: "${query}"`);
+      console.log(`   K: ${k}`);
+      console.log(`   Documents in store: ${this.documents.size}`);
+
       // Perform similarity search (MemoryVectorStore doesn't use filter parameter)
       const results = await this.vectorStore.similaritySearchWithScore(query, k);
+
+      console.log(`   Raw results from vectorStore: ${results.length}`);
+      if (results.length > 0) {
+        console.log(`   Top result score (distance): ${results[0][1]}`);
+        console.log(
+          `   Top result content preview: ${results[0][0].pageContent.substring(0, 100)}...`
+        );
+      }
 
       // Format results
       const searchResults: SearchResult[] = results.map(([doc, score]) => ({
@@ -89,9 +102,10 @@ export class VectorSearchService {
         score: 1 - score, // Convert distance to similarity score
       }));
 
+      console.log(`   Returning ${searchResults.length} formatted results`);
       return searchResults;
     } catch (error) {
-      console.error('Search error:', error);
+      console.error('❌ Search error:', error);
       throw error;
     }
   }

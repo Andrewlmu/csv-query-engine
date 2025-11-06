@@ -67,13 +67,14 @@ async function initializeServices() {
     console.log('✅ Document store initialized (hierarchical mode)');
   }
 
-  // Initialize core services with DocumentStore
-  dataProcessor = new DataProcessor(documentStore || undefined);
+  // Initialize VectorSearch first (shared across all services)
   vectorSearch = new VectorSearchService();
-  documentParser = new DocumentParser();
-
   await vectorSearch.initialize();
   console.log('✅ Vector search initialized');
+
+  // Initialize core services with shared VectorSearch instance
+  dataProcessor = new DataProcessor(documentStore || undefined, vectorSearch);
+  documentParser = new DocumentParser();
 
   // Initialize ParentChildRetriever if hierarchical chunking is enabled
   if (useHierarchicalChunking && documentStore) {
@@ -101,6 +102,41 @@ app.get('/health', (req: Request, res: Response) => {
     model: 'gpt-5',
     async: true,
   });
+});
+
+// Readiness check endpoint - tells if system is ready to answer queries
+app.get('/api/readiness', async (req: Request, res: Response) => {
+  try {
+    const stats = await dataProcessor.getDataStats();
+    const vectorStats = await vectorSearch.getStats();
+
+    // System is ready if we have at least 1 document and chunks in vector store
+    const isReady = stats.totalDocuments > 0 && vectorStats.totalChunks > 0;
+
+    res.json({
+      ready: isReady,
+      status: isReady ? 'READY' : 'NOT_READY',
+      message: isReady
+        ? 'System is ready to answer queries'
+        : 'No documents indexed yet. Please upload documents first.',
+      documents: {
+        total: stats.totalDocuments,
+        chunks: vectorStats.totalChunks,
+        types: stats.documentTypes,
+      },
+      features: {
+        hierarchicalChunking: process.env.USE_HIERARCHICAL_CHUNKING === 'true',
+        agenticRAG: process.env.USE_AGENTIC_RAG === 'true',
+      },
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(500).json({
+      ready: false,
+      status: 'ERROR',
+      error: 'Failed to check readiness',
+    });
+  }
 });
 
 // Upload endpoint with async processing

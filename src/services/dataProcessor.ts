@@ -26,9 +26,10 @@ export class DataProcessor {
   private useHierarchicalChunking: boolean;
   private stats: DataStats;
 
-  constructor(documentStore?: DocumentStore) {
+  constructor(documentStore?: DocumentStore, vectorSearch?: VectorSearchService) {
     this.documentParser = new DocumentParser();
     this.documentStore = documentStore || null;
+    this.vectorSearch = vectorSearch || null;
     this.useHierarchicalChunking = process.env.USE_HIERARCHICAL_CHUNKING === 'true';
 
     // Initialize hierarchical chunker if enabled
@@ -55,8 +56,11 @@ export class DataProcessor {
 
     // Initialize vector search if not already set
     if (!this.vectorSearch) {
+      console.log('   Creating new VectorSearch instance (not shared)');
       this.vectorSearch = new VectorSearchService();
       await this.vectorSearch.initialize();
+    } else {
+      console.log('   Using shared VectorSearch instance ✅');
     }
 
     // Create data directories if they don't exist

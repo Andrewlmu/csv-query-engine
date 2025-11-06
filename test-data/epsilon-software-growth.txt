@@ -1,0 +1,188 @@
+INVESTMENT COMMITTEE MEMORANDUM
+
+Target: Epsilon Analytics, Inc.
+Transaction: Growth Equity Investment
+Date: November 1, 2025
+Fund: Velocity Growth Partners IV
+
+EXECUTIVE OVERVIEW
+Velocity Growth Partners proposes a $175M minority investment in Epsilon Analytics, a leading provider of AI-powered business intelligence software for mid-market enterprises. The investment will fund product development, go-to-market expansion, and strategic M&A.
+
+COMPANY PROFILE
+Founded: 2018
+Headquarters: Austin, Texas
+Employees: 285
+Customers: 450 enterprise clients across 12 industries
+Business Model: SaaS (Software-as-a-Service)
+Primary Product: Enterprise analytics platform with embedded AI/ML capabilities
+
+INVESTMENT THESIS
+1. Large Market Opportunity
+TAM: $85B global business intelligence and analytics market
+Growing at 11% CAGR driven by digital transformation initiatives
+Current penetration: <0.5% of TAM
+
+2. Differentiated Technology
+Proprietary AI models trained on 10B+ data points
+No-code/low-code interface enabling non-technical users
+Real-time data processing (sub-second query response)
+85+ pre-built industry-specific templates
+
+3. Strong Unit Economics
+CAC: $42,000 (improving 15% annually)
+LTV: $580,000 (LTV/CAC ratio of 13.8x)
+Gross margin: 82% (best-in-class for SaaS)
+Net Dollar Retention: 125% (indicating strong expansion revenue)
+
+4. Proven Management Team
+CEO: Amanda Foster - Former VP Product at Salesforce
+CTO: Dr. James Liu - PhD MIT, AI researcher with 40+ patents
+CRO: Kevin O'Brien - Built $200M ARR sales org at Tableau
+
+FINANCIAL PERFORMANCE
+ARR Growth:
+2022: $18M ARR (145% growth)
+2023: $38M ARR (111% growth)
+2024: $72M ARR (89% growth)
+2025E: $115M ARR (60% growth)
+
+Revenue by Segment:
+Platform Subscriptions: 78%
+Professional Services: 14%
+Data Connectors/Add-ons: 8%
+
+Customer Metrics:
+Average Contract Value (ACV): $165,000
+Contract Length: 2.8 years average
+Gross Retention: 94%
+Net Retention: 125%
+Payback Period: 14 months
+
+COMPETITIVE LANDSCAPE
+Direct Competitors:
+- Tableau (Salesforce): Market leader, $2B+ revenue
+- PowerBI (Microsoft): Bundled with Office 365
+- Looker (Google): Strong in data modeling
+- Domo: Public company, $300M revenue
+
+Epsilon's Competitive Advantages:
+- Vertical specialization (healthcare, manufacturing, retail)
+- Embedded AI/ML capabilities without data science expertise
+- Superior time-to-value (30 days vs 6 months for competitors)
+- Mid-market focus (underserved by enterprise vendors)
+
+USE OF PROCEEDS
+Product Development: $65M
+- Expand AI model capabilities
+- Build mobile applications
+- Develop new data connectors (SAP, Oracle, Workday)
+- Enhance security and compliance features
+
+Go-to-Market Expansion: $75M
+- Grow sales team from 45 to 120 reps
+- Expand marketing budget 3x
+- Open EU and APAC offices
+- Build channel partner program
+
+Strategic M&A: $25M
+- Acquire complementary data connector company
+- Acqui-hire AI/ML talent
+
+Working Capital: $10M
+
+GROWTH STRATEGY
+Year 1-2: Product-Market Fit Expansion
+- Launch 5 new industry-specific solutions
+- Expand into mid-market segment ($50M-$500M revenue companies)
+- Build partner ecosystem (AWS, Snowflake, Databricks)
+- Achieve SOC2 Type II and ISO 27001 certifications
+
+Year 3-4: International Expansion
+- Establish European headquarters (London)
+- Enter APAC markets (Singapore, Australia)
+- Localize product for international markets
+- Build international sales teams
+
+Year 5: Market Leadership
+- Reach $400M ARR milestone
+- Achieve Rule of 40 compliance (Growth + Profit Margin = 40%+)
+- Consider strategic alternatives (IPO or strategic acquisition)
+
+FINANCIAL PROJECTIONS
+2025: ARR $115M, Net Burn $(12M)
+2026: ARR $190M, Net Burn $(8M)
+2027: ARR $290M, FCF Breakeven
+2028: ARR $420M, FCF $42M (10% margin)
+2029: ARR $580M, FCF $87M (15% margin)
+
+KEY METRICS TARGETS
+Logo Growth: 40% CAGR
+ARR Growth: 35% CAGR
+Gross Margin: >80%
+Sales Efficiency (Magic Number): >0.8
+Net Dollar Retention: 120%+
+
+RISK ASSESSMENT
+Technology Risk:
+- Rapid evolution of AI/ML technology
+- Dependence on cloud infrastructure providers
+- Data security and privacy concerns
+Mitigation: Continuous R&D investment, multi-cloud strategy, robust security practices
+
+Market Risk:
+- Competition from Microsoft/Google bundles
+- Economic downturn impacting software spending
+- Shift to open-source alternatives
+Mitigation: Strong differentiation, focus on ROI, superior customer service
+
+Execution Risk:
+- Scaling go-to-market organization
+- Maintaining product quality during rapid growth
+- Key person dependency on technical founders
+Mitigation: Experienced management team, structured hiring, knowledge transfer
+
+INVESTMENT STRUCTURE
+Investment Amount: $175M
+Ownership: 25% post-money
+Pre-money Valuation: $525M
+Post-money Valuation: $700M
+Security: Series C Preferred Stock
+
+Board Composition:
+Total Seats: 7
+Velocity: 2 seats
+Founders: 2 seats
+Previous Investors: 2 seats
+Independent: 1 seat
+
+Investor Rights:
+- Pro-rata participation rights
+- Board observation rights
+- Standard protective provisions
+- ROFR on future equity sales
+- Information rights (quarterly financials)
+
+RETURNS ANALYSIS
+Base Case (40% probability): 4.5x, 32% IRR
+Bull Case (30% probability): 8.2x, 48% IRR
+Bear Case (30% probability): 1.8x, 12% IRR
+
+Expected Value: 4.8x, 34% IRR
+
+COMPARABLE TRANSACTIONS
+Snowflake IPO (2020): $33B valuation at 100x forward revenue
+Databricks Series H (2021): $38B valuation at 50x ARR
+Datadog IPO (2019): $8B valuation at 40x ARR
+Elastic IPO (2018): $5.4B valuation at 18x ARR
+
+Epsilon Valuation: $700M at 6.1x ARR (reasonable for high-growth SaaS)
+
+DUE DILIGENCE COMPLETED
+Financial: Clean GAAP accounting, verified ARR and customer metrics
+Legal: No material litigation, standard IP protections
+Technical: Code review positive, scalable architecture
+Commercial: Customer references strong (NPS 72)
+Market: TAM validated by third-party research
+
+RECOMMENDATION
+The Investment Committee recommends approval of a $175M Series C investment in Epsilon Analytics at a $700M post-money valuation. The company demonstrates strong product-market fit, exceptional unit economics, and significant market opportunity in a growing category.
