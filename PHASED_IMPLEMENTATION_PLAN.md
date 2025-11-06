@@ -6,16 +6,16 @@
 
 ## 📊 Phase Overview
 
-| Phase | Goal | Risk | Time | Value |
-|-------|------|------|------|-------|
-| 0A | Better document parsing (Reducto) | 🟢 LOW | 2-3 days | HIGH |
-| 0B | Better Excel handling (Spire.XLS MCP) | 🟢 LOW | 2-3 days | HIGH |
-| 1 | Single agent foundation (LangGraph) | 🟡 MEDIUM | 3-4 days | MEDIUM |
-| 2 | Multi-agent routing (PDF vs Excel) | 🟡 MEDIUM | 4-5 days | HIGH |
-| 3 | Tool use (agents call external APIs) | 🟠 MEDIUM-HIGH | 5-7 days | VERY HIGH |
-| 4 | Advanced orchestration | 🔴 HIGH | 7-10 days | HIGH |
+| Phase | Goal | Risk | Time | Value | Status |
+|-------|------|------|------|-------|--------|
+| 0A | Better document parsing (Reducto) | 🟢 LOW | 2-3 days | HIGH | ✅ COMPLETE |
+| ~~0B~~ | ~~Better Excel handling (Spire.XLS MCP)~~ | ~~🟢 LOW~~ | ~~2-3 days~~ | ~~HIGH~~ | ❌ REMOVED (M4 incompatible) |
+| 1 | Single agent foundation (LangGraph) | 🟡 MEDIUM | 3-4 days | MEDIUM | ✅ COMPLETE |
+| 2 | Agentic RAG with tools | 🟡 MEDIUM | 4-5 days | HIGH | ✅ COMPLETE |
+| 3 | Tool use (agents call external APIs) | 🟠 MEDIUM-HIGH | 5-7 days | VERY HIGH | 🔜 NEXT |
+| 4 | Advanced orchestration | 🔴 HIGH | 7-10 days | HIGH | 📋 PLANNED |
 
-**Total Time:** 23-36 days (3-5 weeks)
+**Total Time (Remaining):** 12-17 days (1.5-2.5 weeks)
 
 ---
 
