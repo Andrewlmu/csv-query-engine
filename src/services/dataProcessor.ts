@@ -197,29 +197,42 @@ export class DataProcessor {
     // Step 2: Load into DuckDB
     const tableName = await this.duckdb.createTable(parsedData);
 
-    // Step 3: Generate rich metadata description
-    const metadata = await this.metadataGenerator.generate(parsedData, tableName);
+    // Step 3: Generate enhanced metadata with statistical profiling
+    const enhancedMetadata = await this.metadataGenerator.generateEnhanced(parsedData, tableName);
 
-    // Step 4: Index metadata as a document (for semantic search)
-    // CRITICAL: Store schema info for SQL generation
+    // Step 4: Index THREE documents for comprehensive understanding
+    const timestamp = Date.now();
+    const baseMetadata = {
+      filename: filename,
+      tableId: tableName,
+      rowCount: parsedData.rowCount,
+      columnCount: parsedData.columnCount,
+      schema: parsedData.headers.map((col, i) => ({
+        name: col,
+        type: parsedData.types[i],
+      })),
+      parsedAt: new Date().toISOString(),
+      // Include profile metadata for rich context
+      dataQuality: {
+        completeness: enhancedMetadata.profile.dataQuality.completeness,
+        missingValues: enhancedMetadata.profile.dataQuality.totalMissingValues,
+      },
+      insights: enhancedMetadata.profile.insights,
+      gaps: enhancedMetadata.profile.gaps,
+    };
+
+    // Document 1: Basic description (for dataset discovery)
     await this.vectorSearch!.addDocument({
-      id: `dataset_${tableName}_${Date.now()}`,
-      content: metadata,
+      id: `dataset_${tableName}_desc_${timestamp}`,
+      content: enhancedMetadata.basicDescription,
       metadata: {
-        filename: filename,
+        ...baseMetadata,
         type: 'dataset_metadata',
-        tableId: tableName,
-        rowCount: parsedData.rowCount,
-        columnCount: parsedData.columnCount,
-        schema: parsedData.headers.map((col, i) => ({
-          name: col,
-          type: parsedData.types[i],
-        })),
-        parsedAt: new Date().toISOString(),
+        documentType: 'description',
       },
       chunks: [
         {
-          text: metadata,
+          text: enhancedMetadata.basicDescription,
           metadata: {
             type: 'dataset_metadata',
             tableId: tableName,
@@ -228,6 +241,50 @@ export class DataProcessor {
               name: col,
               type: parsedData.types[i],
             })),
+          },
+        },
+      ],
+    });
+
+    // Document 2: Statistical summary (for statistical queries)
+    await this.vectorSearch!.addDocument({
+      id: `dataset_${tableName}_stats_${timestamp}`,
+      content: enhancedMetadata.statisticalSummary,
+      metadata: {
+        ...baseMetadata,
+        type: 'dataset_statistics',
+        documentType: 'statistics',
+      },
+      chunks: [
+        {
+          text: enhancedMetadata.statisticalSummary,
+          metadata: {
+            type: 'dataset_statistics',
+            tableId: tableName,
+            filename: filename,
+          },
+        },
+      ],
+    });
+
+    // Document 3: Insights & gaps (for proactive analysis)
+    await this.vectorSearch!.addDocument({
+      id: `dataset_${tableName}_insights_${timestamp}`,
+      content: enhancedMetadata.insightsDocument,
+      metadata: {
+        ...baseMetadata,
+        type: 'dataset_insights',
+        documentType: 'insights',
+      },
+      chunks: [
+        {
+          text: enhancedMetadata.insightsDocument,
+          metadata: {
+            type: 'dataset_insights',
+            tableId: tableName,
+            filename: filename,
+            gaps: enhancedMetadata.profile.gaps,
+            anomalies: enhancedMetadata.profile.anomalies,
           },
         },
       ],
