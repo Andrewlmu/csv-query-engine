@@ -124,10 +124,8 @@ export class ReactAgent {
       console.log(`🔍 Tools being sent:`, JSON.stringify(tools, null, 2).substring(0, 500));
 
       // FIX: Bind tools to the model with explicit tool_choice (critical for function calling!)
-      const llmWithTools = this.llm.bind({
-        tools: tools,
-        tool_choice: 'auto', // Explicitly enable tool calling
-      });
+      // LangChain 1.0.0 uses bindTools() instead of bind()
+      const llmWithTools = this.llm.bindTools(tools);
 
       console.log(`🔍 Bound model with tools, invoking...`);
 

@@ -1,18 +1,34 @@
 /**
  * Auto-loader for demo/sample data on server startup
  * Automatically loads files from specified directory
+ * With persistence support: skips already-processed files
  */
 
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import type { DataProcessor } from '../services/dataProcessor';
 import type { DocumentParser } from '../services/documentParser';
+import { FileTracker } from '../services/fileTracker';
+import type { Database } from 'duckdb-async';
 
 export class AutoLoader {
+  private fileTracker: FileTracker | null = null;
+
   constructor(
     private dataProcessor: DataProcessor,
     private documentParser: DocumentParser
   ) {}
+
+  /**
+   * Initialize file tracker if persistence is enabled
+   */
+  async initialize(db: Database): Promise<void> {
+    if (process.env.ENABLE_PERSISTENCE === 'true') {
+      this.fileTracker = new FileTracker(db);
+      await this.fileTracker.initialize();
+      console.log('💾 File tracker initialized for smart loading');
+    }
+  }
 
   /**
    * Auto-load all files from a directory on startup
@@ -43,14 +59,14 @@ export class AutoLoader {
       console.log(`📄 Found ${files.length} file(s) to load`);
       console.log(`🔍 Files found:`, files.sort());
 
-      let loaded = 0;
-      let skipped = 0;
+      let processedCount = 0;
+      let skippedCount = 0;
 
       // Process each file
       for (const filename of files) {
         // Skip hidden files and directories
         if (filename.startsWith('.')) {
-          skipped++;
+          skippedCount++;
           continue;
         }
 
@@ -60,8 +76,20 @@ export class AutoLoader {
           // Check if it's a file (not directory)
           const stats = await fs.stat(filePath);
           if (!stats.isFile()) {
-            skipped++;
+            skippedCount++;
             continue;
+          }
+
+          // Check if file needs processing (if file tracker is enabled)
+          if (this.fileTracker) {
+            const needsProcessing = await this.fileTracker.needsProcessing(filePath);
+            if (!needsProcessing) {
+              skippedCount++;
+              continue; // Skip this file
+            }
+
+            // Mark as processing
+            await this.fileTracker.markProcessing(filePath);
           }
 
           // Read file content
@@ -90,15 +118,26 @@ export class AutoLoader {
           };
 
           await this.dataProcessor.processDocument(doc);
-          loaded++;
+
+          // Mark as completed
+          if (this.fileTracker) {
+            await this.fileTracker.markCompleted(filePath);
+          }
+
+          processedCount++;
           console.log(`  ✅ Loaded: ${filename} (${type})`);
         } catch (error: any) {
+          // Mark as error
+          if (this.fileTracker) {
+            await this.fileTracker.markError(filePath, error.message);
+          }
           console.error(`  ❌ Failed to load ${filename}:`, error.message);
-          skipped++;
         }
       }
 
-      console.log(`\n📊 Auto-load complete: ${loaded} loaded, ${skipped} skipped\n`);
+      console.log(
+        `\n📊 Auto-load complete: ${processedCount} processed, ${skippedCount} skipped\n`
+      );
     } catch (error: any) {
       console.error('❌ Auto-load failed:', error.message);
     }

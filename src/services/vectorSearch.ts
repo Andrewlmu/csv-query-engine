@@ -11,6 +11,7 @@ export interface SearchResult {
 /**
  * Simplified Vector Search using in-memory store
  * No external ChromaDB dependency - works immediately!
+ * Note: For true persistence, would need external vector DB (Pinecone, Weaviate, etc.)
  */
 export class VectorSearchService {
   private vectorStore: MemoryVectorStore;

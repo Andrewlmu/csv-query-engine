@@ -1,5 +1,7 @@
 import { Database } from 'duckdb-async';
 import { ParsedData } from './parsers/csv-parser.js';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface QueryResult {
   success: boolean;
@@ -14,8 +16,24 @@ export class DuckDBManager {
 
   async initialize() {
     console.log('🦆 Initializing DuckDB...');
-    this.db = await Database.create(':memory:');
-    console.log('✅ DuckDB initialized (in-memory)');
+
+    const enablePersistence = process.env.ENABLE_PERSISTENCE === 'true';
+    const duckdbPath = process.env.DUCKDB_PATH || './data/duckdb.db';
+
+    if (enablePersistence) {
+      // Ensure directory exists
+      const dbDir = path.dirname(duckdbPath);
+      if (!fs.existsSync(dbDir)) {
+        fs.mkdirSync(dbDir, { recursive: true });
+        console.log(`📁 Created DuckDB directory: ${dbDir}`);
+      }
+
+      this.db = await Database.create(duckdbPath);
+      console.log(`💾 DuckDB initialized (persistent): ${duckdbPath}`);
+    } else {
+      this.db = await Database.create(':memory:');
+      console.log('🔄 DuckDB initialized (in-memory)');
+    }
   }
 
   async createTable(data: ParsedData): Promise<string> {
@@ -127,6 +145,10 @@ export class DuckDBManager {
 
   getAllTables(): TableInfo[] {
     return Array.from(this.tables.values());
+  }
+
+  getDatabase(): Database | null {
+    return this.db;
   }
 
   async close() {

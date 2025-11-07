@@ -95,8 +95,20 @@ async function initializeServices() {
   console.log('🎯 All services ready with async capabilities');
 
   // Auto-load demo data if enabled
-  const autoLoader = new AutoLoader(dataProcessor, documentParser);
-  await autoLoader.autoLoadDemoData();
+  if (process.env.AUTO_LOAD_DEMO === 'true') {
+    const autoLoader = new AutoLoader(dataProcessor, documentParser);
+
+    // Initialize file tracker if persistence is enabled
+    const duckdb = dataProcessor.getDuckDB();
+    const db = duckdb.getDatabase();
+    if (db) {
+      await autoLoader.initialize(db);
+    }
+
+    await autoLoader.autoLoadDemoData();
+  } else {
+    console.log('⏭️  Auto-load disabled (AUTO_LOAD_DEMO=false)');
+  }
 }
 
 // Health check endpoint
