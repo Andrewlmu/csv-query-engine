@@ -4,7 +4,7 @@
  */
 
 import { StateGraph, Annotation, START, END } from '@langchain/langgraph';
-import { ChatOpenAI } from '@langchain/openai';
+import OpenAI from 'openai';
 import { BaseMessage, HumanMessage, AIMessage, ToolMessage } from '@langchain/core/messages';
 import type { AgentState, AgenticQueryResult, Source } from '../types/agent.types';
 import { agentConfig, REACT_SYSTEM_PROMPT, loggingConfig } from '../config/agent.config';
@@ -30,24 +30,22 @@ const StateAnnotation = Annotation.Root({
  * ReAct Agent using LangGraph
  */
 export class ReactAgent {
-  private llm: ChatOpenAI;
+  private openai: OpenAI;
   private graph: any;
 
   constructor() {
     console.log('🔍 AgentConfig.llm.model:', agentConfig.llm.model);
     console.log('🔍 process.env.LLM_MODEL:', process.env.LLM_MODEL);
 
-    // Initialize LLM with function calling
-    this.llm = new ChatOpenAI({
-      model: agentConfig.llm.model,
-      temperature: agentConfig.llm.temperature,
-      maxTokens: agentConfig.llm.maxTokens,
+    // Initialize OpenAI client for Responses API (GPT-5 support)
+    this.openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
     });
 
     // Build the graph
     this.graph = this.buildGraph();
 
-    console.log(`🤖 ReAct Agent initialized with LangGraph (model: ${agentConfig.llm.model})`);
+    console.log(`🤖 ReAct Agent initialized with Responses API (model: ${agentConfig.llm.model})`);
   }
 
   /**
@@ -114,8 +112,8 @@ export class ReactAgent {
         );
       }
 
-      // Call LLM with tools
-      console.log(`🔍 Calling LLM with ${messages.length} messages and ${tools.length} tools...`);
+      // Call LLM with tools using Responses API
+      console.log(`🔍 Calling Responses API with ${messages.length} messages and ${tools.length} tools...`);
       console.log(`🔍 Messages being sent:`);
       messages.forEach((msg, i) => {
         const content = msg.content?.toString() || '[no content]';
@@ -123,34 +121,107 @@ export class ReactAgent {
       });
       console.log(`🔍 Tools being sent:`, JSON.stringify(tools, null, 2).substring(0, 500));
 
-      // FIX: Bind tools to the model with explicit tool_choice (critical for function calling!)
-      // LangChain 1.0.0 uses bindTools() instead of bind()
-      const llmWithTools = this.llm.bindTools(tools);
+      // Convert LangChain messages to Responses API input format
+      const responsesInput: any[] = [];
 
-      console.log(`🔍 Bound model with tools, invoking...`);
+      // Separate system messages for instructions parameter
+      let systemInstructions = REACT_SYSTEM_PROMPT;
 
-      const response = await llmWithTools.invoke(messages);
+      for (const msg of messages) {
+        if (msg instanceof HumanMessage) {
+          // Skip the first system prompt message since we use instructions parameter
+          if (msg.content.toString() === REACT_SYSTEM_PROMPT) {
+            continue;
+          }
+          responsesInput.push({
+            role: 'user',
+            content: msg.content.toString(),
+            type: 'message'
+          });
+        } else if (msg instanceof AIMessage) {
+          // If AIMessage has tool calls, add them as function_call items
+          if (msg.tool_calls && msg.tool_calls.length > 0) {
+            for (const tc of msg.tool_calls) {
+              responsesInput.push({
+                id: tc.id,
+                call_id: tc.id,
+                name: tc.name,
+                arguments: JSON.stringify(tc.args),
+                type: 'function_call'
+              });
+            }
+          } else if (msg.content) {
+            // Regular assistant message
+            responsesInput.push({
+              role: 'assistant',
+              content: msg.content.toString(),
+              type: 'message'
+            });
+          }
+        } else if (msg instanceof ToolMessage) {
+          // Tool output
+          responsesInput.push({
+            id: `${msg.tool_call_id}-output`,
+            call_id: msg.tool_call_id,
+            output: msg.content.toString(),
+            type: 'function_call_output'
+          });
+        }
+      }
+
+      console.log(`🔍 Calling Responses API...`);
+
+      const response_api = await this.openai.responses.create({
+        model: agentConfig.llm.model,
+        input: responsesInput,
+        instructions: systemInstructions,
+        tools: tools,
+        tool_choice: 'auto', // Let model decide when to use tools
+        temperature: agentConfig.llm.temperature,
+        max_output_tokens: agentConfig.llm.maxTokens,
+      });
+
+      console.log(`🔍 Responses API response received`);
+      console.log(`🔍 Response output length:`, response_api.output.length);
+
+      // Convert Responses API output back to LangChain AIMessage format
+      let responseContent = '';
+      const toolCalls: any[] = [];
+
+      for (const outputItem of response_api.output) {
+        if ('type' in outputItem) {
+          if (outputItem.type === 'message' && 'content' in outputItem) {
+            // Extract text content from message
+            const content = outputItem.content;
+            if (Array.isArray(content)) {
+              for (const contentPart of content) {
+                if ('type' in contentPart && 'text' in contentPart) {
+                  responseContent += (contentPart as any).text;
+                }
+              }
+            }
+          } else if (outputItem.type === 'function_call' && 'name' in outputItem && 'arguments' in outputItem) {
+            // Extract function/tool calls
+            toolCalls.push({
+              id: (outputItem as any).call_id || (outputItem as any).id,
+              name: (outputItem as any).name,
+              args: JSON.parse((outputItem as any).arguments)
+            });
+          }
+        }
+      }
+
+      // Fallback to output_text if no content extracted
+      if (!responseContent && response_api.output_text) {
+        responseContent = response_api.output_text;
+      }
+
+      const response = new AIMessage({
+        content: responseContent,
+        tool_calls: toolCalls
+      });
 
       console.log(`🔍 Raw response:`, JSON.stringify(response, null, 2).substring(0, 1000));
-
-      // FIX: Parse tool calls from additional_kwargs if not in top-level
-      // This is needed for older LangChain versions
-      if (
-        (!response.tool_calls || response.tool_calls.length === 0) &&
-        response.additional_kwargs?.tool_calls?.length > 0
-      ) {
-        console.log(
-          `🔧 Parsing tool calls from additional_kwargs (LangChain version compatibility fix)`
-        );
-
-        response.tool_calls = response.additional_kwargs.tool_calls.map((tc: any) => ({
-          id: tc.id,
-          name: tc.function.name,
-          args: JSON.parse(tc.function.arguments),
-        }));
-
-        console.log(`✅ Parsed ${response.tool_calls.length} tool call(s) from additional_kwargs`);
-      }
 
       // ALWAYS log (ignore traceSteps for debugging)
       console.log(`🔍 LLM responded!`);
