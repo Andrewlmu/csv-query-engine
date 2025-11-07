@@ -133,17 +133,14 @@ export class ToolRegistry {
   }
 
   /**
-   * Get tool definitions in OpenAI function calling format
-   * This is used by LangChain to pass tools to the LLM
+   * Get tool definitions in OpenAI Responses API format
+   * Responses API uses flat structure with name/description/parameters at top level
    */
   getOpenAITools(): any[] {
     return Array.from(this.tools.values()).map(tool => ({
-      type: 'function' as const,
-      function: {
-        name: tool.name,
-        description: tool.description,
-        parameters: tool.parameters,
-      },
+      name: tool.name,
+      description: tool.description,
+      parameters: tool.parameters,
     }));
   }
 
