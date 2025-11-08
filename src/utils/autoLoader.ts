@@ -27,6 +27,49 @@ export class AutoLoader {
       this.fileTracker = new FileTracker(db);
       await this.fileTracker.initialize();
       console.log('💾 File tracker initialized for smart loading');
+
+      // CONSISTENCY CHECK: Detect state mismatch between FileTracker and VectorStore
+      await this.validateConsistency();
+    }
+  }
+
+  /**
+   * Validate consistency between FileTracker and VectorStore
+   * Auto-recover if they're out of sync (self-healing)
+   */
+  private async validateConsistency(): Promise<void> {
+    if (!this.fileTracker) return;
+
+    try {
+      const trackerStats = await this.fileTracker.getStats();
+      const vectorStats = await this.dataProcessor.getDataStats();
+
+      // If FileTracker has completed files but VectorStore is empty, we're in an inconsistent state
+      if (trackerStats.completed > 0 && vectorStats.totalFiles === 0) {
+        console.warn('\n⚠️  ═══════════════════════════════════════════════════════════');
+        console.warn('⚠️  INCONSISTENCY DETECTED - Initiating Auto-Recovery');
+        console.warn('⚠️  ═══════════════════════════════════════════════════════════');
+        console.warn(`   FileTracker shows: ${trackerStats.completed} files marked as completed`);
+        console.warn(`   VectorStore shows: ${vectorStats.totalFiles} files in cache`);
+        console.warn('   ');
+        console.warn('   This can happen when:');
+        console.warn('   - Vector cache was manually deleted');
+        console.warn('   - Cache save failed during previous shutdown');
+        console.warn('   - Server shutdown occurred with empty in-memory state');
+        console.warn('   ');
+        console.warn('   🔧 SOLUTION: Clearing FileTracker to force full reload...');
+        console.warn('⚠️  ═══════════════════════════════════════════════════════════\n');
+
+        await this.fileTracker.clearAll();
+        console.log('✅ Auto-recovery complete - files will be reprocessed\n');
+      } else if (trackerStats.completed > 0) {
+        console.log(
+          `✅ Consistency check passed (FileTracker: ${trackerStats.completed}, VectorStore: ${vectorStats.totalFiles})`
+        );
+      }
+    } catch (error) {
+      console.error('⚠️  Consistency check failed:', error);
+      // Don't throw - allow system to continue
     }
   }
 

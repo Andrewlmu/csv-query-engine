@@ -165,4 +165,12 @@ export class FileTracker {
 
     return result[0] || { total: 0, completed: 0, error: 0, pending: 0 };
   }
+
+  /**
+   * Clear all tracking records (for recovery/reset)
+   */
+  async clearAll(): Promise<void> {
+    await this.db.run(`DELETE FROM ${this.tableName}`);
+    console.log('🗑️  Cleared all file tracking records');
+  }
 }

@@ -25,6 +25,7 @@ export class VectorSearchService {
   private embeddings: OpenAIEmbeddings;
   private cachePath: string;
   private documents: Map<string, Document> = new Map();
+  private isCleanedUp: boolean = false;
 
   constructor() {
     this.embeddings = new OpenAIEmbeddings({
@@ -107,6 +108,22 @@ export class VectorSearchService {
         pageContent: doc.pageContent,
         metadata: doc.metadata,
       }));
+
+      // Defensive check: Warn if about to overwrite non-empty cache with empty state
+      if (documents.length === 0) {
+        try {
+          const existingData = await fs.readFile(this.cachePath, 'utf-8');
+          const existingDocs = JSON.parse(existingData);
+          if (existingDocs.length > 0) {
+            console.warn(
+              `   ⚠️  WARNING: Skipping save of empty cache (would overwrite ${existingDocs.length} existing documents)`
+            );
+            return; // Don't overwrite!
+          }
+        } catch {
+          // Cache doesn't exist or is invalid, safe to write empty array
+        }
+      }
 
       await fs.writeFile(this.cachePath, JSON.stringify(documents, null, 2));
       console.log(`   💾 Saved ${documents.length} documents to cache`);
@@ -240,10 +257,24 @@ export class VectorSearchService {
   }
 
   async cleanup(): Promise<void> {
+    // Prevent double cleanup (can be called from multiple places)
+    if (this.isCleanedUp) {
+      console.log('   ⏭️  Vector store already cleaned up, skipping');
+      return;
+    }
+
     console.log('🧹 Cleaning up vector store...');
-    // Final save before cleanup
-    await this.saveToCache();
+
+    // CRITICAL: Only save if we have documents
+    // Don't overwrite cache with empty state (can happen if files were skipped during load)
+    if (this.documents.size > 0) {
+      await this.saveToCache();
+    } else {
+      console.log('   ⏭️  Skipping cache save (no documents in memory - preserving existing cache)');
+    }
+
     this.documents.clear();
+    this.isCleanedUp = true;
   }
 }
 

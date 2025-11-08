@@ -221,25 +221,6 @@ app.post('/api/query', async (req: Request, res: Response) => {
   }
 });
 
-// Load sample data endpoint
-app.post('/api/load-sample-data', async (req: Request, res: Response) => {
-  try {
-    io.emit('sample-data:loading');
-
-    // Load sample data asynchronously
-    await dataProcessor.loadSampleData();
-
-    const stats = await dataProcessor.getDataStats();
-
-    io.emit('sample-data:loaded', { stats });
-    res.json({ success: true, stats });
-  } catch (error) {
-    console.error('Sample data loading error:', error);
-    io.emit('sample-data:error', { error: (error as Error).message });
-    res.status(500).json({ error: 'Failed to load sample data' });
-  }
-});
-
 // Get data statistics
 app.get('/api/stats', async (req: Request, res: Response) => {
   try {
@@ -295,7 +276,7 @@ async function startServer() {
 // Handle graceful shutdown
 process.on('SIGINT', async () => {
   console.log('\nShutting down gracefully...');
-  await vectorSearch?.cleanup();
+  // dataProcessor.cleanup() will handle vectorSearch cleanup (shared instance)
   await dataProcessor?.cleanup();
   documentStore?.clear();
   httpServer.close(() => {
