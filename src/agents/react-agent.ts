@@ -24,6 +24,10 @@ const StateAnnotation = Annotation.Root({
     default: () => 0,
   }),
   error: Annotation<string | null>(),
+  consecutiveSearchCalls: Annotation<number>({
+    reducer: (x, y) => y ?? x,
+    default: () => 0,
+  }),
 });
 
 /**
@@ -90,9 +94,9 @@ export class ReactAgent {
         end: END,
       });
 
-    // Compile with increased recursion limit
+    // Compile with increased recursion limit for complex multi-step queries
     return workflow.compile({
-      recursionLimit: 50, // Allow more loops for complex reasoning
+      recursionLimit: 75, // Allow more loops for complex reasoning (increased from 50)
     });
   }
 
@@ -298,10 +302,48 @@ export class ReactAgent {
     }
 
     const toolMessages: ToolMessage[] = [];
+    let newConsecutiveSearchCalls = state.consecutiveSearchCalls || 0;
 
     for (const toolCall of toolCalls) {
       if (loggingConfig.traceSteps) {
         console.log(`  ↳ ${toolCall.name}(${JSON.stringify(toolCall.args)})`);
+      }
+
+      // ANTI-LOOP ENFORCEMENT: Block 3rd consecutive search
+      if (toolCall.name === 'search_dataset_metadata') {
+        if (newConsecutiveSearchCalls >= 2) {
+          // HARD LIMIT REACHED - Block the call
+          const errorMessage = `🚫 SEARCH LIMIT ENFORCED: You have already called search_dataset_metadata ${newConsecutiveSearchCalls} times in a row. You MUST now use query_structured_data to query the datasets you already found. Do NOT search again - work with what you have!`;
+
+          console.warn(errorMessage);
+
+          toolMessages.push(
+            new ToolMessage({
+              content: JSON.stringify({
+                blocked: true,
+                error: errorMessage,
+                message: 'Search limit reached. You must now query the data you already found using query_structured_data.',
+                searchCallsUsed: newConsecutiveSearchCalls,
+                limit: 2,
+              }),
+              tool_call_id: toolCall.id!,
+              name: toolCall.name,
+            })
+          );
+
+          // Don't increment further, keep at limit
+          continue;
+        }
+
+        // Increment search counter
+        newConsecutiveSearchCalls += 1;
+        console.log(`📊 Search call count: ${newConsecutiveSearchCalls}/2`);
+      } else {
+        // Different tool called - reset search counter
+        if (newConsecutiveSearchCalls > 0) {
+          console.log(`🔄 Resetting search counter (was ${newConsecutiveSearchCalls})`);
+        }
+        newConsecutiveSearchCalls = 0;
       }
 
       try {
@@ -337,6 +379,7 @@ export class ReactAgent {
 
     return {
       messages: toolMessages,
+      consecutiveSearchCalls: newConsecutiveSearchCalls,
     };
   }
 
@@ -435,6 +478,7 @@ export class ReactAgent {
         answer: null,
         loopCount: 0,
         error: null,
+        consecutiveSearchCalls: 0,
       };
 
       console.log('🔍 DEBUG: Initial state:', initialState);
