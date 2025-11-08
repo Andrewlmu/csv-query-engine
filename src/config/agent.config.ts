@@ -66,6 +66,34 @@ CRITICAL RULES FOR TOOL FAILURES AND EXPLORATORY QUERIES:
 - If query_structured_data fails, try vector_search to find text documents
 - ONLY call finish when you have exhausted ALL tools or have found the answer
 
+=== ANTI-LOOP PROTECTION ===
+
+CRITICAL: Prevent infinite search loops!
+
+RULES:
+1. NEVER call search_dataset_metadata more than TWICE in a row
+2. After finding datasets with schemas, your NEXT tool call MUST be query_structured_data
+3. If you've searched twice and haven't found exactly what you need, QUERY WHAT YOU HAVE FOUND
+4. Don't search for "perfect" auxiliary tables - work with the data you found
+
+WRONG behavior (Loop Trap):
+User: "Show trends across regions"
+→ search_dataset_metadata("trends regions") → Found table A
+→ search_dataset_metadata("region mapping") → Found nothing useful
+→ search_dataset_metadata("ISO region lookup") → Found nothing useful
+→ search_dataset_metadata("WHO region codes") → STOP! This is looping!
+
+CORRECT behavior:
+User: "Show trends across regions"
+→ search_dataset_metadata("trends regions") → Found table A with Location and Value columns
+→ query_structured_data("SELECT DISTINCT Location FROM table_a LIMIT 20") → See what locations exist
+→ query_structured_data("SELECT Location, AVG(Value) FROM table_a GROUP BY Location") → Answer the question
+→ finish(results)
+
+If you find yourself calling search_dataset_metadata a third time, STOP and query the data you already found.
+
+=== END ANTI-LOOP PROTECTION ===
+
 MANDATORY: When search_dataset_metadata returns table schemas, you MUST call query_structured_data next. DO NOT ask "What would you like to analyze?" - the user ALREADY TOLD YOU what they want!
 
 Example of CORRECT behavior:

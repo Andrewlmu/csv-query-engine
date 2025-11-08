@@ -18,7 +18,7 @@ export function createVectorSearchTool(
   return {
     name: 'vector_search',
 
-    description: `Search the document vector database for relevant information about PE deals, companies, financial data, and documents.
+    description: `Search the document vector database for relevant information from uploaded documents.
 Use this tool when you need to find information from existing uploaded documents.
 Returns the most relevant document chunks with similarity scores${parentChildRetriever ? ' and full parent context' : ''}.`,
 
@@ -28,7 +28,7 @@ Returns the most relevant document chunks with similarity scores${parentChildRet
         query: {
           type: 'string',
           description:
-            'Search query to find relevant documents. Be specific and use keywords related to PE deals, companies, or financial metrics.',
+            'Search query to find relevant documents. Be specific and use keywords related to your question.',
         },
         maxResults: {
           type: 'number',

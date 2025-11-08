@@ -218,12 +218,20 @@ export class ReactAgent {
               }
             }
           } else if (outputItem.type === 'function_call' && 'name' in outputItem && 'arguments' in outputItem) {
-            // Extract function/tool calls
-            toolCalls.push({
-              id: (outputItem as any).call_id || (outputItem as any).id,
-              name: (outputItem as any).name,
-              args: JSON.parse((outputItem as any).arguments)
-            });
+            // Extract function/tool calls with safe JSON parsing
+            try {
+              toolCalls.push({
+                id: (outputItem as any).call_id || (outputItem as any).id,
+                name: (outputItem as any).name,
+                args: JSON.parse((outputItem as any).arguments)
+              });
+            } catch (parseError) {
+              // Handle malformed JSON from LLM gracefully
+              console.error(`❌ Failed to parse tool arguments for ${(outputItem as any).name}:`, parseError);
+              console.error(`   Raw arguments string: ${(outputItem as any).arguments}`);
+              console.warn(`   ⚠️  Skipping malformed tool call - agent will continue with remaining tools`);
+              // Don't add this tool call, but continue processing other tools
+            }
           }
         }
       }
