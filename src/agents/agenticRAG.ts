@@ -12,7 +12,6 @@ import { createVectorSearchTool } from '../tools/vector-search-tool';
 import { createFinishTool } from '../tools/finish-tool';
 import { createQueryStructuredDataTool } from './tools/query-structured-data.js';
 import { createSearchDatasetMetadataTool } from './tools/search-dataset-metadata.js';
-import { createGetDatasetInsightsTool } from './tools/get-dataset-insights.js';
 import type { AgenticQueryResult } from '../types/agent.types';
 import { agentConfig } from '../config/agent.config';
 
@@ -70,10 +69,6 @@ export class AgenticRAG {
       const queryStructuredTool = createQueryStructuredDataTool(this.dataProcessor.getDuckDB());
       toolRegistry.register(queryStructuredTool);
       console.log('  ✅ Structured data query tool registered');
-
-      const getInsightsTool = createGetDatasetInsightsTool(this.vectorSearch);
-      toolRegistry.register(getInsightsTool);
-      console.log('  ✅ Dataset insights tool registered');
     }
 
     // Log available tools
