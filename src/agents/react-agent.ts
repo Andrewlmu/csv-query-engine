@@ -568,7 +568,7 @@ export class ReactAgent {
             if (toolResult.found && toolResult.datasets) {
               for (const dataset of toolResult.datasets.slice(0, 3)) { // Top 3 datasets
                 sources.push({
-                  chunk: `Dataset: ${dataset.tableName} (${dataset.rowCount} rows) - ${dataset.description?.substring(0, 100) || 'No description'}`,
+                  chunk: `Dataset: ${dataset.tableName} (${dataset.rowCount} rows) - ${dataset.description || 'No description'}`,
                   filename: dataset.filename || dataset.tableName,
                   similarity: parseFloat(dataset.relevance) || 0.8,
                 });
