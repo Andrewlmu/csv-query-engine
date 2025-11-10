@@ -1,7 +1,7 @@
 {
-  "name": "pe-analysis-typescript",
+  "name": "rag-data-platform",
   "version": "1.0.0",
-  "description": "Private Equity Data Analysis Platform - TypeScript with full async",
+  "description": "Upload CSVs and query them with natural language using RAG",
   "main": "dist/server.js",
   "scripts": {
     "dev": "concurrently \"npm run chromadb\" \"npm run dev:backend\" \"cd frontend && npm run dev\"",
@@ -18,13 +18,14 @@
     "chromadb": "./scripts/start-chromadb.sh"
   },
   "keywords": [
-    "pe",
+    "csv",
+    "rag",
     "data-analysis",
     "typescript",
-    "async",
-    "gpt-5"
+    "gpt-5",
+    "langchain"
   ],
-  "author": "",
+  "author": "Andrew Mu",
   "license": "MIT",
   "dependencies": {
     "@langchain/community": "^0.0.10",
